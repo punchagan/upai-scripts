@@ -1,0 +1,23 @@
+{% for day in days %}
+    <h2>Day - {{ loop.index }}</h2>
+    {% for talk in day %}
+        <div>
+            <h4>{{talk.title}}</h4>
+            <h6>{{talk.speaker}}</h6>
+            {% if talk.youtube  %}
+                <a href="https://www.youtube.com/watch/?v={{talk.youtube}}" target="_blank">
+                    <img src="{% if talk.poster %}{{talk.poster}}{%else%}https://img.youtube.com/vi/{{talk.youtube}}/hqdefault.jpg{% endif %}" />
+                </a>
+            {% elif  talk.poster %}
+                <img src="{{talk.poster}}" />
+                <p class="notice notice-error">Video not available</p>
+            {% endif %}
+            <p>{{talk.abstract}}</p>
+        </div>
+        {% if not loop.last %}<hr />{% endif %}
+    {% endfor %}
+    {% if loop.index == 1 %}
+        <hr />
+        <hr />
+    {% endif %}
+{% endfor %}
