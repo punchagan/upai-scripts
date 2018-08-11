@@ -20,7 +20,7 @@ from dateutil import tz
 from googleapiclient.discovery import build
 from httplib2 import Http
 from ics import Calendar
-import mock
+import unittest.mock as mock
 from oauth2client import file, client, tools
 import requests
 
@@ -34,10 +34,12 @@ TZINFO = tz.gettz('Asia/Kolkata')
 
 
 def build_calendar_service():
-    store = file.Storage('token.json')
+    store = file.Storage(join(HERE, 'token.json'))
     creds = store.get()
     if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
+        flow = client.flow_from_clientsecrets(
+            join(HERE, 'credentials.json'), SCOPES
+        )
         creds = tools.run_flow(flow, store)
     return build('calendar', 'v3', http=creds.authorize(Http()))
 
